@@ -40,4 +40,81 @@ public class CoffeeServiceTest {
 
 
     }
+
+    @Test
+    public void findCoffeeTest(){
+        //given
+        int expectedQty = 1;
+        double expectedPrice = 2.25;
+        int expectedSize = 12;
+        String expectedDrinkType = "regular";
+        String expectedFlavor = "none";
+        Boolean expectedCream = false;
+        Boolean expectedSugar = false;
+
+        CoffeeService coffeeServiceTest = new CoffeeService();
+        Coffee expectedCoffee = coffeeServiceTest.create(expectedQty, expectedPrice, expectedSize, expectedDrinkType, expectedFlavor,
+                expectedCream, expectedSugar);
+
+        //when
+        Coffee actualCoffee = coffeeServiceTest.findCoffee(1);
+
+        //then
+        Assertions.assertEquals(expectedCoffee, actualCoffee);
+    }
+
+    @Test
+    public void findCoffeeTest2(){//Look for one that isn't there
+        //given
+        Coffee expectedCoffee = null;
+        CoffeeService coffeeServiceTest = new CoffeeService();
+
+        //When
+        Coffee actualCoffee = coffeeServiceTest.findCoffee(2);
+
+        //then
+        Assertions.assertEquals(expectedCoffee, actualCoffee);
+
+
+         }
+
+    @Test
+    public void findAllTest(){
+        //given
+        CoffeeService coffeeServiceTest = new CoffeeService();
+        Coffee expectedCoffee1 = coffeeServiceTest.create(1, 2.25, 12, "regular", "none", false, false);
+        Coffee expectedCoffee2 = coffeeServiceTest.create(2, 3.50, 18, "latte", "caramel", true, true);
+        Coffee[] expectedCoffeeList = {expectedCoffee1, expectedCoffee2};
+        //When
+        Coffee[] actualCoffeeList = coffeeServiceTest.findAll();
+
+        //then
+        Assertions.assertArrayEquals(expectedCoffeeList, actualCoffeeList);
+    }
+
+
+
+    @Test
+    public void deleteTest(){
+        //given
+        CoffeeService coffeeServiceTest2 = new CoffeeService();
+        Coffee expectedCoffee1 = coffeeServiceTest2.create(1, 2.25, 12, "regular", "none", false, false);
+        Coffee expectedCoffee2 = coffeeServiceTest2.create(2, 3.50, 18, "latte", "caramel", true, true);
+        Coffee[] expectedCoffeeList = {expectedCoffee1};
+        Boolean expectedResult = true;
+
+        //When
+        Boolean actualResult = coffeeServiceTest2.delete(6);
+        Coffee[] actualCoffeeList = coffeeServiceTest2.findAll();
+        for (Coffee c : actualCoffeeList){
+            System.out.println(c.getId());
+        }
+
+        //then
+        Assertions.assertArrayEquals(expectedCoffeeList, actualCoffeeList);
+        Assertions.assertEquals(expectedResult, actualResult);
+
+    }
+
+
 }
