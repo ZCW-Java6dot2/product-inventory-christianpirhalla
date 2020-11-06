@@ -11,6 +11,20 @@ public class Coffee {
     private boolean cream;
     private boolean sugar;
 
+    public Coffee() {
+
+    }
+
+    public Coffee(int q, double p, int expSize, String dt, String f, Boolean c, Boolean s) {
+        this.qty = q;
+        this.price = p;
+        this.size = expSize;
+        this.drinkType = dt;
+        this.flavor = f;
+        this.cream = c;
+        this.sugar = s;
+    }
+
     public void setQty(int i) {
         this.qty = i;
     }
