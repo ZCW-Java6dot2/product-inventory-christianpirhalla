@@ -1,6 +1,7 @@
 package models;
 
 public class Coffee {
+    private int id;
 
     private int qty;
     private double price;
@@ -16,6 +17,17 @@ public class Coffee {
     }
 
     public Coffee(int q, double p, int expSize, String dt, String f, Boolean c, Boolean s) {
+        this.qty = q;
+        this.price = p;
+        this.size = expSize;
+        this.drinkType = dt;
+        this.flavor = f;
+        this.cream = c;
+        this.sugar = s;
+    }
+
+    public Coffee(int i, int q, double p, int expSize, String dt, String f, Boolean c, Boolean s) {
+        this.id = i;
         this.qty = q;
         this.price = p;
         this.size = expSize;
@@ -79,5 +91,9 @@ public class Coffee {
 
     public Boolean getSugar() {
         return this.sugar;
+    }
+
+    public int getId() {
+        return this.id;
     }
 }
