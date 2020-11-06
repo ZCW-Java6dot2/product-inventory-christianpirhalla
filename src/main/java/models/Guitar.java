@@ -3,7 +3,7 @@ package models;
 public class Guitar {
 
     private int qty;
-    private float price;
+    private double price;
 
     private String brand; //fender, gibson, ibanez, peavey
     private int numStrings; //6-8
