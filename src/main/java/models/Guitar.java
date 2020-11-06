@@ -10,6 +10,19 @@ public class Guitar {
     private String color; //black, white, red, pink, sunburst
     private boolean hasActivePickups;
 
+    public Guitar(){
+
+    }
+
+    public Guitar(int qty, double price, String brand, int numStrings, String expectedColor, Boolean hasActivePickups) {
+        this.qty = qty;
+        this.price = price;
+        this.brand = brand;
+        this.numStrings = numStrings;
+        this.color = expectedColor;
+        this.hasActivePickups = hasActivePickups;
+    }
+
     public void setQty(int i) {
         this.qty = i;
     }

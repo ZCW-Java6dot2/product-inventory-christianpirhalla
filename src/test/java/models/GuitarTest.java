@@ -6,6 +6,28 @@ import org.junit.jupiter.api.Assertions;
 public class GuitarTest {
 
     @Test
+    public void constructorTest(){
+        int expectedQty = 2;
+        double expectedPrice = 300.00;
+        String expectedBrand = "Ibanez";
+        int expectedNumStrings = 7;
+        String expectedColor = "Black";
+        Boolean expectedHasActivePickups = false;
+
+        Guitar testGuitar = new Guitar(expectedQty, expectedPrice, expectedBrand, expectedNumStrings, expectedColor,
+                expectedHasActivePickups);
+        
+        Assertions.assertEquals(expectedQty, testGuitar.getQty());
+        Assertions.assertEquals(expectedPrice, testGuitar.getPrice());
+        Assertions.assertEquals(expectedBrand, testGuitar.getBrand());
+        Assertions.assertEquals(expectedNumStrings, testGuitar.getNumStrings());
+        Assertions.assertEquals(expectedColor, testGuitar.getColor());
+        Assertions.assertEquals(expectedHasActivePickups, testGuitar.getHasActivePickups());
+
+
+    }
+
+    @Test
     public void setQtyTest(){
         //given
         int expected = 20;
