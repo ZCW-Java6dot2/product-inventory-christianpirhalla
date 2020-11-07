@@ -1,6 +1,7 @@
 package models;
 
 public class Guitar {
+    private int id;
 
     private int qty;
     private double price;
@@ -22,6 +23,19 @@ public class Guitar {
         this.color = expectedColor;
         this.hasActivePickups = hasActivePickups;
     }
+
+    public Guitar(int i, int expectedQty, Double expectedPrice, String expectedBrand, int expectedNumStrings, String expectedColor, Boolean expectedHasActivePickups) {
+        this.id = i;
+        this.qty = expectedQty;
+        this.price = expectedPrice;
+        this.brand = expectedBrand;
+        this.numStrings = expectedNumStrings;
+        this.color = expectedColor;
+        this.brand = expectedBrand;
+        this.hasActivePickups = expectedHasActivePickups;
+    }
+
+    public int getId() {return id;}
 
     public void setQty(int i) {
         this.qty = i;
@@ -70,4 +84,5 @@ public class Guitar {
     public Boolean getHasActivePickups() {
         return hasActivePickups;
     }
+
 }

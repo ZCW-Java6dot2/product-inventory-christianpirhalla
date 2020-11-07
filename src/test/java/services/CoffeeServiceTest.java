@@ -57,7 +57,8 @@ public class CoffeeServiceTest {
                 expectedCream, expectedSugar);
 
         //when
-        Coffee actualCoffee = coffeeServiceTest.findCoffee(1);
+        int actualId = coffeeServiceTest.findAll()[0].getId();
+        Coffee actualCoffee = coffeeServiceTest.findCoffee(actualId);
 
         //then
         Assertions.assertEquals(expectedCoffee, actualCoffee);
@@ -104,11 +105,11 @@ public class CoffeeServiceTest {
         Boolean expectedResult = true;
 
         //When
-        Boolean actualResult = coffeeServiceTest2.delete(6);
+        int idToRemove = coffeeServiceTest2.findAll()[1].getId();
+
+        Boolean actualResult = coffeeServiceTest2.delete(idToRemove);
         Coffee[] actualCoffeeList = coffeeServiceTest2.findAll();
-        for (Coffee c : actualCoffeeList){
-            System.out.println(c.getId());
-        }
+
 
         //then
         Assertions.assertArrayEquals(expectedCoffeeList, actualCoffeeList);
