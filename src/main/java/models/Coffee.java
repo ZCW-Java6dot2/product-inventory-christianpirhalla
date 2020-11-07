@@ -12,10 +12,6 @@ public class Coffee {
     private boolean cream;
     private boolean sugar;
 
-    public Coffee() {
-
-    }
-
     public Coffee(int q, double p, int expSize, String dt, String f, Boolean c, Boolean s) {
         this.qty = q;
         this.price = p;
@@ -24,6 +20,10 @@ public class Coffee {
         this.flavor = f;
         this.cream = c;
         this.sugar = s;
+    }
+
+    public Coffee() {
+
     }
 
     public Coffee(int i, int q, double p, int expSize, String dt, String f, Boolean c, Boolean s) {
@@ -95,5 +95,13 @@ public class Coffee {
 
     public int getId() {
         return this.id;
+    }
+
+    @Override
+    public String toString(){
+
+        return "Coffee: " + "Quantity: " + "qty" + "Price: " + price + "Size: " + size + "Drink type: " + drinkType
+                + "Flavor: " + flavor + "Cream: " + cream + "Sugar" + sugar;
+
     }
 }
