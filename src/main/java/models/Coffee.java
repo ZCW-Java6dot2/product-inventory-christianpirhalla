@@ -100,8 +100,8 @@ public class Coffee {
     @Override
     public String toString(){
 
-        return "Coffee: " + "Quantity: " + "qty" + "Price: " + price + "Size: " + size + "Drink type: " + drinkType
-                + "Flavor: " + flavor + "Cream: " + cream + "Sugar" + sugar;
+        return "Coffee: \n" + " | Quantity: " + qty + " | Price: " + price + " | Size: " + size + " | Drink type: " + drinkType
+                + " | Flavor: " + flavor + " | Cream: " + cream + " | Sugar: " + sugar;
 
     }
 }

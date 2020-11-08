@@ -1,5 +1,6 @@
 import io.Console;
 import models.Coffee;
+import models.Guitar;
 import services.CoffeeService;
 import services.GuitarService;
 
@@ -9,6 +10,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class App {
+
+    private boolean isOn = true;
 
     private CoffeeService coffeeService = new CoffeeService();
     private GuitarService guitarService = new GuitarService();
@@ -29,53 +32,226 @@ public class App {
         // call methods to take user input and interface with services
 
         console.printWelcome();
+        while(isOn){
+            String action = console.getStringInput("What would you like to do? (Create/Read/Update/Delete/Reports/Exit");
+            switch (action.toLowerCase()){
+                case "create":
+                    createProduct();
+                    break;
+
+                case "read":
+                    getProductInfo();
+                    break;
+
+                case "update":
+                    updateProduct();
+                    break;
+
+                case "delete":
+                    deleteProduct();
+                    break;
+
+                case "reports":
+                    getReports();
+                    break;
+
+                case "exit":
+                    isOn = false;
+                    break;
+
+                default:
+                    System.out.println("You have selected an invalid command.");
+                    break;
+
+            }
+        }
 
 
+    }
+
+    /** This searches for a coffee by id and returns that coffee if it exists. Otherwise, it returns null. **/
+    public Coffee verifyCoffeeExists(){
+        int idToFind = console.getIntegerInput("Please enter the product id");
+        Coffee foundCoffee = coffeeService.findCoffee(idToFind);
+        if (foundCoffee == null) {
+            System.out.println("Sorry, no product with that id exists.");
+        }
+        return foundCoffee;
+    }
+
+    public Guitar verifyGuitarExists(){
+        int idToFind = console.getIntegerInput("Please enter the product id");
+        Guitar foundGuitar = guitarService.find(idToFind);
+        if (foundGuitar == null) {
+            System.out.println("Sorry, no product with that id exists.");
+        }
+        return foundGuitar;
+    }
+
+    //
+    // C R E A T E
+    //
+
+    /** Prompts the user for input to create a new Coffee **/
+    public void createCoffee(){
+
+        int qty = console.getIntegerInput("Enter Quantity");
+        double price = console.getDoubleInput("Enter Price");
+        int size = console.getIntegerInput("Enter Size");
+        String drinkType = console.getStringInput("Enter drink type");
+        String flavor = console.getStringInput("Enter flavor");
+        boolean cream = Boolean.parseBoolean(console.getStringInput("Cream? (true/false)"));
+        boolean sugar = Boolean.parseBoolean(console.getStringInput("Sugar? (true/false)"));
+        Coffee created = coffeeService.create(qty, price, size, drinkType, flavor, cream, sugar);
+        System.out.println("Coffee created. ID: " + created.getId());
+    }
+
+    /** Prompts the user for input to create a new Guitar **/
+    public void createGuitar(){
+        int qty = console.getIntegerInput("Enter Quantity");
+        double price = console.getDoubleInput("Enter Price");
+        String brand = console.getStringInput("Enter Brand");
+        int strings = console.getIntegerInput("Enter number of strings");
+        String color = console.getStringInput("Enter Color");
+        boolean pickups = Boolean.parseBoolean(console.getStringInput("Active pickups? (true/false)"));
+        Guitar created = guitarService.create(qty, price, brand, strings, color, pickups);
+        System.out.println("Guitar created. ID: " + created.getId());
     }
 
     public void createProduct(){
         String productType = console.getStringInput("What type of product would you like to create? (Coffee/Guitar?)");
             if (productType.equalsIgnoreCase("Coffee")){
-                int qty = console.getIntegerInput("Enter Quantity");
-                double price = console.getDoubleInput("Enter Price");
-                int size = console.getIntegerInput("Enter Size");
-                String drinkType = console.getStringInput("Enter drink type");
-                String flavor = console.getStringInput("Enter flavor");
-                boolean cream = Boolean.parseBoolean(console.getStringInput("Cream? (true/false)"));
-                boolean sugar = Boolean.parseBoolean(console.getStringInput("Sugar? (true/false)"));
-                coffeeService.create(qty, price, size, drinkType, flavor, cream, sugar);
+                createCoffee();
             }
-
-            if (productType.equalsIgnoreCase("guitar")){
-                int qty = console.getIntegerInput("Enter Quantity");
-                double price = console.getDoubleInput("Enter Price");
-                String brand = console.getStringInput("Enter Brand");
-                int strings = console.getIntegerInput("Enter number of strings");
-                String color = console.getStringInput("Enter Color");
-                boolean pickups = Boolean.parseBoolean(console.getStringInput("Active pickups? (true/false)"));
-                guitarService.create(qty, price, brand, strings, color, pickups);
+            else if (productType.equalsIgnoreCase("guitar")){
+                createGuitar();
             }
+            else
+                System.out.println("You have selected an invalid product.");
+    }
 
+    //
+    // R E A D
+    //
+
+    public void readCoffeeInfo(){
+        Coffee foundCoffee = verifyCoffeeExists();
+        System.out.println(foundCoffee);
+    }
+
+    public void readGuitarInfo(){
+        Guitar foundGuitar = verifyGuitarExists();
+        System.out.println(foundGuitar);
     }
 
     public void getProductInfo(){
         String productType = console.getStringInput("What type of product are you searching for?(Coffee/Guitar)");
         if (productType.equalsIgnoreCase("coffee")){
-            int idToFind = console.getIntegerInput("Please enter the product id");
-            Coffee foundCoffee = coffeeService.findCoffee(idToFind);
-            if (foundCoffee == null) {
-                System.out.println("Sorry, no product with that id exists.");
-            }
-            System.out.println(foundCoffee);
+            readCoffeeInfo();
         }
+        else if (productType.equalsIgnoreCase("guitar")){
+            readGuitarInfo();
+        }
+        else
+            System.out.println("You have selected an invalid product.");
+    }
+
+
+    //
+    // U P D A T E
+    //
+
+
+    public void updateCoffee(){
+        Coffee coffeeToUpdate = verifyCoffeeExists();
+        System.out.println("Current product info: " + coffeeToUpdate.toString());
+
+        int qty = console.getIntegerInput("Enter Quantity");
+        double price = console.getDoubleInput("Enter Price");
+        int size = console.getIntegerInput("Enter Size");
+        String drinkType = console.getStringInput("Enter drink type");
+        String flavor = console.getStringInput("Enter flavor");
+        boolean cream = Boolean.parseBoolean(console.getStringInput("Cream? (true/false)"));
+        boolean sugar = Boolean.parseBoolean(console.getStringInput("Sugar? (true/false)"));
+
+        coffeeToUpdate.setQty(qty);
+        coffeeToUpdate.setPrice(price);
+        coffeeToUpdate.setSize(size);
+        coffeeToUpdate.setDrinkType(drinkType);
+        coffeeToUpdate.setFlavor(flavor);
+        coffeeToUpdate.setCream(cream);
+        coffeeToUpdate.setSugar(sugar);
+        System.out.println("Product updated.");
+    }
+
+    public void updateGuitar(){
+        Guitar guitarToUpdate = verifyGuitarExists();
+        System.out.println("Current product info: " + guitarToUpdate.toString());
+
+        int qty = console.getIntegerInput("Enter Quantity");
+        double price = console.getDoubleInput("Enter Price");
+        String brand = console.getStringInput("Enter Brand");
+        int strings = console.getIntegerInput("Enter number of strings");
+        String color = console.getStringInput("Enter Color");
+        boolean pickups = Boolean.parseBoolean(console.getStringInput("Active pickups? (true/false)"));
+
+        guitarToUpdate.setQty(qty);
+        guitarToUpdate.setPrice(price);
+        guitarToUpdate.setBrand(brand);
+        guitarToUpdate.setNumStrings(strings);
+        guitarToUpdate.setColor(color);
+        guitarToUpdate.setHasActivePickups(pickups);
+        System.out.println("Product updated");
     }
 
     public void updateProduct(){
-        System.out.println("update");
+        String productToUpdate = console.getStringInput("What type of product do you want to update?");
+        if (productToUpdate.equalsIgnoreCase("coffee")){
+            updateCoffee();
+        }
+        else if (productToUpdate.equalsIgnoreCase("guitar")){
+            updateGuitar();
+        }
+        else
+            System.out.println("You have selected an invalid product.");
+    }
+
+    //
+    // D E L E T E
+    //
+
+    public void deleteCoffee(){
+        Coffee coffeeToDelete = verifyCoffeeExists();
+        if (coffeeToDelete != null) {
+            int deleteId = coffeeToDelete.getId();
+            coffeeService.delete(deleteId);
+        }
+        else {
+            System.out.println("Product cannot be deleted since it doesn't exist.");
+        }
+    }
+
+    public void deleteGuitar(){
+        Guitar guitarToDelete = verifyGuitarExists();
+        if (guitarToDelete != null) {
+            int deleteId = guitarToDelete.getId();
+            guitarService.delete(deleteId);
+        }
+        else {
+            System.out.println("Product cannot be deleted since it doesn't exist.");
+        }
     }
 
     public void deleteProduct(){
-        System.out.println("delete");
+        String productToDelete = console.getStringInput("What type of product do you want to delete?");
+        if (productToDelete.equalsIgnoreCase("coffee")){
+            deleteCoffee();
+        }
+        else if (productToDelete.equalsIgnoreCase("guitar")){
+            deleteGuitar();
+        }
+        else
+            System.out.println("You have selected an invalid product type.");
     }
 
     public void getReports(){
