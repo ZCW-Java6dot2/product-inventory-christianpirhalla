@@ -1,13 +1,24 @@
 package services;
 
 import models.Coffee;
+import utils.CSVUtils;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CoffeeService {
     //fields
     private static int nextId = 1;
     private ArrayList<Coffee> inventory = new ArrayList<Coffee>();
+
+    public CoffeeService(){
+        loadData();
+    }
 
     //methods
     public Coffee create(int expectedQty, double expectedPrice, int expectedSize, String expectedDrinkType, String expectedFlavor, Boolean expectedCream, Boolean expectedSugar) {
@@ -45,5 +56,62 @@ public class CoffeeService {
         }
         // if we make it here, then an object of that id wasn't in there
         return false;
+    }
+
+    public void writeDataToFile() throws IOException {
+        String csvFile = "/Users/christian/Desktop/Coffee.csv";
+        FileWriter writer = new FileWriter(csvFile); //(1)
+
+        CSVUtils.writeLine(writer, new ArrayList<String>(Arrays.asList(String.valueOf(nextId))));  // (2)
+
+        for (Coffee c : inventory) {
+            List<String> list = new ArrayList<>(); // (3)
+            list.add(String.valueOf(c.getId()));
+            list.add(c.getDrinkType());
+            list.add(c.getFlavor());
+            list.add(String.valueOf(c.getCream()));
+            list.add(String.valueOf(c.getSugar()));
+            list.add(String.valueOf(c.getSize()));
+            list.add(String.valueOf(c.getPrice()));
+            list.add(String.valueOf(c.getQty()));
+
+            CSVUtils.writeLine(writer, list);  // (4)
+        }
+
+// (5)
+        writer.flush();
+        writer.close();
+    }
+
+    private void loadData(){
+        // (1)
+        String csvFile = "/Users/christian/Desktop/Coffee.csv";
+        String line = "";
+        String csvSplitBy = ",";
+
+        // (2)
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            nextId = Integer.parseInt(br.readLine());  // (3)
+
+            while ((line = br.readLine()) != null) {
+                // split line with comma
+                String[] beer = line.split(csvSplitBy);
+
+                // (4)
+                int id = Integer.parseInt(beer[0]);
+                String drinkType = beer[1];
+                String flavor = beer[2];
+                Boolean cream = Boolean.parseBoolean(beer[3]);
+                Boolean sugar = Boolean.parseBoolean(beer[4]);
+                int size = Integer.parseInt(beer[5]);
+                Double price = Double.parseDouble(beer[6]);
+                int qty = Integer.parseInt(beer[7]);
+
+                // (5)
+                inventory.add(new Coffee(id, qty, price, size, drinkType, flavor, cream, sugar));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

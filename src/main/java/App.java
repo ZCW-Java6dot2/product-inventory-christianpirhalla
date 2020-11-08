@@ -4,6 +4,7 @@ import models.Guitar;
 import services.CoffeeService;
 import services.GuitarService;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -22,15 +23,14 @@ public class App {
     }
 
 
-    public static void main(String args[]){
+    public static void main(String args[]) throws IOException {
         App application = new App();
         application.init();
     }
 
-    public void init(){
+    public void init() throws IOException {
         //application logic here
         // call methods to take user input and interface with services
-
         console.printWelcome();
         while(isOn){
             String action = console.getStringInput("What would you like to do? (Create/Read/Update/Delete/Reports/Exit");
@@ -254,8 +254,10 @@ public class App {
             System.out.println("You have selected an invalid product type.");
     }
 
-    public void getReports(){
+    public void getReports() throws IOException {
         System.out.println("get reports");
+        coffeeService.writeDataToFile();
+        guitarService.writeDataToFile();
     }
 
     public void exit(){
