@@ -1,12 +1,13 @@
 package services;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import models.Guitar;
 import utils.CSVUtils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +17,8 @@ public class GuitarService {
 
     private ArrayList<Guitar> inventory = new ArrayList<Guitar>();
 
-    public GuitarService(){
-        loadData();
+    public GuitarService() throws IOException {
+        //loadData();
     }
 
     public Guitar create(int expectedQty, Double expectedPrice, String expectedBrand, int expectedNumStrings, String expectedColor, Boolean expectedHasActivePickups) {
@@ -58,6 +59,18 @@ public class GuitarService {
     }
 
     public void writeDataToFile() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        writer.writeValue(new File("/Users/christian/Desktop/Guitars.json"), inventory);
+    }
+
+    public void loadData() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        this.inventory = objectMapper.readValue(new File("/Users/christian/Desktop/Guitars.json"), new TypeReference<ArrayList<Guitar>>(){ });
+    }
+
+    /* O L D   M E T H O D
+    public void writeDataToFile() throws IOException {
         String csvFile = "/Users/christian/Desktop/Guitars.csv";
         FileWriter writer = new FileWriter(csvFile); //(1)
 
@@ -80,7 +93,9 @@ public class GuitarService {
         writer.flush();
         writer.close();
     }
+    */
 
+    /* O L D   M E T H O D
     private void loadData(){
         // (1)
         String csvFile = "/Users/christian/Desktop/Guitars.csv";
@@ -110,6 +125,6 @@ public class GuitarService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 }

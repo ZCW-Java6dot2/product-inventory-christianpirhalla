@@ -18,6 +18,9 @@ public class App {
     private GuitarService guitarService = new GuitarService();
     private Console console = new Console();
 
+    public App() throws IOException {
+    }
+
     public CoffeeService getCoffeeService(){
         return coffeeService;
     }
@@ -33,7 +36,7 @@ public class App {
         // call methods to take user input and interface with services
         console.printWelcome();
         while(isOn){
-            String action = console.getStringInput("What would you like to do? (Create/Read/Update/Delete/Reports/Exit");
+            String action = console.getStringInput("What would you like to do? (Create/Read/Update/Delete/Reports/Load data/Save data/Exit)");
             switch (action.toLowerCase()){
                 case "create":
                     createProduct();
@@ -55,8 +58,18 @@ public class App {
                     getReports();
                     break;
 
+                case "save data":
+                    guitarService.writeDataToFile();
+                    coffeeService.writeDataToFile();
+                    break;
+
+                case "load data":
+                    guitarService.loadData();
+                    coffeeService.loadData();
+                    break;
+
                 case "exit":
-                    isOn = false;
+                    exit();
                     break;
 
                 default:
@@ -94,7 +107,6 @@ public class App {
 
     /** Prompts the user for input to create a new Coffee **/
     public void createCoffee(){
-
         int qty = console.getIntegerInput("Enter Quantity");
         double price = console.getDoubleInput("Enter Price");
         int size = console.getIntegerInput("Enter Size");
@@ -120,14 +132,19 @@ public class App {
 
     public void createProduct(){
         String productType = console.getStringInput("What type of product would you like to create? (Coffee/Guitar?)");
-            if (productType.equalsIgnoreCase("Coffee")){
-                createCoffee();
+            switch (productType.toLowerCase()){
+                case "coffee":
+                    createCoffee();
+                    break;
+
+                case "guitar":
+                    createGuitar();
+                    break;
+
+                default:
+                    System.out.println("You have selected an invalid product type.");
+                    break;
             }
-            else if (productType.equalsIgnoreCase("guitar")){
-                createGuitar();
-            }
-            else
-                System.out.println("You have selected an invalid product.");
     }
 
     //
@@ -254,14 +271,125 @@ public class App {
             System.out.println("You have selected an invalid product type.");
     }
 
+    //
+    // R E P O R T S
+    //
+    public void lowInventoryReport(String productType){
+        switch (productType) {
+            case "guitar":
+                System.out.println("The following items have a quantity less than 3: ");
+                for (Guitar g : guitarService.findAll()) {
+                    if (g.getQty() < 3) {
+                        System.out.println(g);
+                    }
+                }
+                break;
+
+            case "coffee":
+                System.out.println("The following items have a quantity less than 3: ");
+                for (Coffee c : coffeeService.findAll()) {
+                    if (c.getQty() < 3) {
+                        System.out.println(c);
+                    }
+                }
+                break;
+        }
+
+    }
+
+    public void surplusInventoryReport(String productType){
+        switch (productType) {
+            case "guitar":
+                System.out.println("The following items have a quantity greater than 10: ");
+                for (Guitar g : guitarService.findAll()) {
+                    if (g.getQty() > 10) {
+                        System.out.println(g);
+                    }
+                }
+                break;
+
+            case "coffee":
+                System.out.println("The following items have a quantity greater than 10: ");
+                for (Coffee c : coffeeService.findAll()) {
+                    if (c.getQty() > 10) {
+                        System.out.println(c);
+                    }
+                }
+                break;
+        }
+
+    }
+
+    public void inventoryByBrandReport(){
+        String brand = console.getStringInput("What brand would you like to search by?");
+        System.out.println("The following products are of brand " + brand);
+        for (Guitar g : guitarService.findAll()){
+            if (g.getBrand().toLowerCase().equals(brand.toLowerCase())){
+                System.out.println(g);
+            }
+        }
+    }
+
+    public void getGuitarReports(){
+        String reportType = console.getStringInput("What type of report would you like to generate? \n"
+                +"(Low inventory/Surplus inventory/Inventory by brand)");
+        switch (reportType.toLowerCase()){
+            case "low inventory":
+                lowInventoryReport("guitar");
+                break;
+
+            case "surplus inventory":
+                surplusInventoryReport("guitar");
+                break;
+
+            case "inventory by brand":
+                inventoryByBrandReport();
+                break;
+
+            default:
+                System.out.println("You have selected an invalid command.");
+                break;
+        }
+
+    }
+
+    public void getCoffeeReports(){
+        String reportType = console.getStringInput("What type of report would you like to generate? \n"
+                +"(Low inventory/Surplus inventory)");
+        switch (reportType.toLowerCase()){
+            case "low inventory":
+                lowInventoryReport("coffee");
+                break;
+
+            case "surplus inventory":
+                surplusInventoryReport("coffee");
+                break;
+
+            default:
+                System.out.println("You have selected an invalid command.");
+                break;
+        }
+
+    }
+
     public void getReports() throws IOException {
-        System.out.println("get reports");
-        coffeeService.writeDataToFile();
-        guitarService.writeDataToFile();
+        String productType = console.getStringInput("What type of product do you want to generate reports on?");
+            switch (productType.toLowerCase()){
+                case "guitar":
+                    getGuitarReports();
+                    break;
+
+                case "coffee":
+                    getCoffeeReports();
+                    break;
+
+                default:
+                    System.out.println("You have selected an invalid product type.");
+            }
     }
 
     public void exit(){
-        System.out.println("exit");
+        isOn = false;
     }
 
     }

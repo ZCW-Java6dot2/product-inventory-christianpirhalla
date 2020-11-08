@@ -4,10 +4,12 @@ import models.Guitar;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
+import java.io.IOException;
+
 public class GuitarServiceTest {
 
     @Test
-    public void createTest(){
+    public void createTest() throws IOException {
 
         int expectedQty = 1;
         Double expectedPrice = 300.00;
@@ -36,7 +38,7 @@ public class GuitarServiceTest {
     }
 
     @Test
-    public void findGuitarTest(){
+    public void findGuitarTest() throws IOException {
         //given
         GuitarService guitarServiceTest = new GuitarService();
         Guitar expectedGuitar = guitarServiceTest.create(1, 300.00, "Ibanez", 7,"Black",false);
@@ -52,7 +54,7 @@ public class GuitarServiceTest {
     }
 
     @Test
-    public void findAllTest(){
+    public void findAllTest() throws IOException {
         //given
         GuitarService guitarServiceTest = new GuitarService();
         Guitar expectedGuitar1 = guitarServiceTest.create(1, 300.00, "Ibanez", 7,"Black",false);
@@ -67,7 +69,7 @@ public class GuitarServiceTest {
     }
 
     @Test
-    public void deleteTest(){
+    public void deleteTest() throws IOException {
         //given
         GuitarService guitarServiceTest = new GuitarService();
         Guitar expectedGuitar1 = guitarServiceTest.create(1, 300.00, "Ibanez", 7,"Black",false);

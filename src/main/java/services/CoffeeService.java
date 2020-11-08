@@ -1,12 +1,14 @@
 package services;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import models.Coffee;
+import models.Guitar;
 import utils.CSVUtils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +19,7 @@ public class CoffeeService {
     private ArrayList<Coffee> inventory = new ArrayList<Coffee>();
 
     public CoffeeService(){
-        loadData();
+        //loadData();
     }
 
     //methods
@@ -58,6 +60,18 @@ public class CoffeeService {
         return false;
     }
 
+    public void writeDataToFile() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        writer.writeValue(new File("/Users/christian/Desktop/Coffee.json"), inventory);
+    }
+
+    public void loadData() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        this.inventory = objectMapper.readValue(new File("/Users/christian/Desktop/Coffee.json"), new TypeReference<ArrayList<Coffee>>(){ });
+    }
+
+    /*
     public void writeDataToFile() throws IOException {
         String csvFile = "/Users/christian/Desktop/Coffee.csv";
         FileWriter writer = new FileWriter(csvFile); //(1)
@@ -114,4 +128,6 @@ public class CoffeeService {
             e.printStackTrace();
         }
     }
+    */
+
 }
