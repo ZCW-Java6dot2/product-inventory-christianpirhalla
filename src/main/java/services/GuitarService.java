@@ -17,8 +17,8 @@ public class GuitarService {
 
     private ArrayList<Guitar> inventory = new ArrayList<Guitar>();
 
-    public GuitarService() throws IOException {
-        //loadData();
+    public GuitarService() {
+
     }
 
     public Guitar create(int expectedQty, Double expectedPrice, String expectedBrand, int expectedNumStrings, String expectedColor, Boolean expectedHasActivePickups) {

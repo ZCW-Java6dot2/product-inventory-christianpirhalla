@@ -19,7 +19,6 @@ public class CoffeeService {
     private ArrayList<Coffee> inventory = new ArrayList<Coffee>();
 
     public CoffeeService(){
-        //loadData();
     }
 
     //methods

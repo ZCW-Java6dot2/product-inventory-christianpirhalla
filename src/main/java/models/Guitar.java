@@ -87,8 +87,8 @@ public class Guitar {
 
     @Override
     public String toString(){
-        return "Guitar: \n" + "Quantity: " + qty + "Price: " + price + "Brand: " + brand + "Number of Strings: " + numStrings
-                + "Color: " + color + "Active Pickups: " + hasActivePickups;
+        return "Guitar: \n" + "| Quantity: " + qty + " | Price: " + price + " | Brand: " + brand + " | Number of Strings: " + numStrings
+                + " | Color: " + color + " | Active Pickups: " + hasActivePickups;
     }
 
 }

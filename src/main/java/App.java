@@ -18,7 +18,7 @@ public class App {
     private GuitarService guitarService = new GuitarService();
     private Console console = new Console();
 
-    public App() throws IOException {
+    public App() {
     }
 
     public CoffeeService getCoffeeService(){
@@ -73,7 +73,7 @@ public class App {
                     break;
 
                 default:
-                    System.out.println("You have selected an invalid command.");
+                    console.printInvalidCommandError();
                     break;
 
             }
@@ -142,7 +142,7 @@ public class App {
                     break;
 
                 default:
-                    System.out.println("You have selected an invalid product type.");
+                    console.printInvalidProductError();
                     break;
             }
     }
@@ -170,7 +170,7 @@ public class App {
             readGuitarInfo();
         }
         else
-            System.out.println("You have selected an invalid product.");
+            console.printInvalidProductError();
     }
 
 
@@ -230,7 +230,7 @@ public class App {
             updateGuitar();
         }
         else
-            System.out.println("You have selected an invalid product.");
+            console.printInvalidProductError();
     }
 
     //
@@ -242,6 +242,7 @@ public class App {
         if (coffeeToDelete != null) {
             int deleteId = coffeeToDelete.getId();
             coffeeService.delete(deleteId);
+            System.out.println("Product deleted.");
         }
         else {
             System.out.println("Product cannot be deleted since it doesn't exist.");
@@ -253,6 +254,7 @@ public class App {
         if (guitarToDelete != null) {
             int deleteId = guitarToDelete.getId();
             guitarService.delete(deleteId);
+            System.out.println("Product deleted.");
         }
         else {
             System.out.println("Product cannot be deleted since it doesn't exist.");
@@ -268,7 +270,7 @@ public class App {
             deleteGuitar();
         }
         else
-            System.out.println("You have selected an invalid product type.");
+            console.printInvalidProductError();
     }
 
     //
@@ -347,7 +349,7 @@ public class App {
                 break;
 
             default:
-                System.out.println("You have selected an invalid command.");
+                console.printInvalidCommandError();
                 break;
         }
 
@@ -366,7 +368,7 @@ public class App {
                 break;
 
             default:
-                System.out.println("You have selected an invalid command.");
+                console.printInvalidCommandError();
                 break;
         }
 
@@ -384,7 +386,7 @@ public class App {
                     break;
 
                 default:
-                    System.out.println("You have selected an invalid product type.");
+                    console.printInvalidProductError();
             }
     }
 

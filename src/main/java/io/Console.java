@@ -2,6 +2,7 @@ package io;
 import java.util.Scanner;
 
 public class Console {
+
     public static void printWelcome(){
         System.out.println(""+
                 "***************************************************" + "\n" +
@@ -9,6 +10,14 @@ public class Console {
                 "|                    to                           |" + "\n" +
                 "|     The Guitar & Coffee Shop Inventory Manager  |" + "\n" +
                 "***************************************************" );
+    }
+
+    public void printInvalidProductError(){
+        System.out.println("You have entered an invalid product type.");
+    }
+
+    public void printInvalidCommandError(){
+        System.out.println("You have entered an invalid command.");
     }
 
     public String getStringInput(String prompt) { // use this to get boolean input too
